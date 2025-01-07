@@ -58,6 +58,14 @@ pipeline:
           deploymentType: AzureWebApp
           service:
             serviceRef: harnessreceipt
+            serviceInputs:
+              serviceDefinition:
+                type: AzureWebApp
+                spec:
+                  artifacts:
+                    primary:
+                      primaryArtifactRef: <+input>
+                      sources: <+input>
           environment:
             environmentRef: devharness
             deployToAll: false
