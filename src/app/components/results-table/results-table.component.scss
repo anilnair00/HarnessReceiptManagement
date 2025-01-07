@@ -1,0 +1,165 @@
+table {
+  width: 100%;
+}
+
+.no-results {
+  margin: auto;
+  text-align: center;
+}
+
+.mat-column-subject {
+  font-size: 0.8em;
+  width: 15%;
+  padding-right: 10px !important;
+}
+
+.mat-column-email {
+  font-size: 0.8em;
+  width: 15%;
+}
+
+.mat-column-receipt_sent_date {
+  font-size: 0.8em;
+}
+.mat-column-issuing_date {
+  font-size: 0.8em;
+}
+.mat-column-file {
+  font-size: 0.8em;
+  padding-right: 2px !important;
+}
+
+.mat-column-firstname {
+  font-size: 0.8em;
+}
+.mat-column-lastname {
+  font-size: 0.8em;
+  padding-right: 10px;
+}
+.mat-column-pnr {
+  font-size: 0.8em;
+  width: 6em;
+}
+.mat-column-type {
+  font-size: 0.8em;
+  padding-right: 10px;
+}
+.mat-column-ticket-number {
+  font-size: 0.8em;
+}
+.mat-column-document-number {
+  font-size: 0.8em;
+}
+.mat-column-flight-date {
+  font-size: 0.8em;
+}
+.mat-column-completion_time {
+  font-size: 0.8em;
+}
+
+// New index scss
+
+.mat-column-document_connections {
+  font-size: 0.8em;
+}
+
+.mat-column-document_issue-dates {
+  font-size: 0.8em;
+  max-width: 5em;
+}
+
+.mat-column-document_numbers {
+  font-size: 0.8em;
+  min-width: 8em;
+  padding-right: 10px !important;
+}
+
+.mat-column-first_travel_date {
+  font-size: 0.8em;
+  min-width: 7em;
+}
+
+.mat-column-email_subject {
+  font-size: 0.8em;
+  min-width: 10%;
+  padding-right: 10px !important;
+}
+
+.mat-column-email_recipient {
+  font-size: 0.8em;
+  min-width: 7em;
+  height: auto;
+}
+
+.mat-column-email_sent_date {
+  font-size: 0.8em;
+  min-width: 7em;
+}
+
+.mat-column-ticket_numbers {
+  font-size: 0.8em;
+  width: 8em;
+  padding-right: 10px !important;
+}
+
+// .mat-column-first_names {
+//   font-size: 0.8em;
+//   max-width: 7em;
+//   padding-right: 10px !important;
+// }
+
+// .mat-column-middle_names {
+//   font-size: 0.8em;
+//   max-width: 7em;
+//   padding-right: 10px !important;
+// }
+
+// .mat-column-last_names {
+//   font-size: 0.8em;
+//   max-width: 7em;
+//   padding-right: 10px !important;
+// }
+
+.mat-column-passenger_names {
+  font-size: 0.8em;
+  width: 11.8em;
+  padding-right: 10px !important;
+}
+
+.mat-column-ticket_issue_date {
+  font-size: 0.8em;
+  min-width: 7em;
+}
+
+.mat-column-document_types {
+  font-size: 0.8em;
+  padding-right: 10px !important;
+  min-width: 5em;
+}
+
+.mat-column-flight_numbers {
+  font-size: 0.8em;
+  padding-right: 10px !important;
+  min-width: 5em;
+}
+
+.mat-column-airport_codes {
+  font-size: 0.8em;
+  padding-right: 10px !important;
+  min-width: 5em;
+}
+
+.mat-column-city_names {
+  font-size: 0.8em;
+  padding-right: 10px !important;
+  min-width: 5em;
+}
+
+// First column
+th.mat-header-cell:first-of-type {
+  padding: 5px !important;
+}
+
+td.mat-cell:first-of-type {
+  padding: 5px !important;
+}

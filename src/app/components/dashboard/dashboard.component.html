@@ -1,0 +1,53 @@
+<nav class="nav-panel mb-5">
+  <div class="row">
+    <div class="col-sm-12 col-md-6">
+      <h5><img src="../assets/img/logo.png" alt="">{{ "dashboard.receipt-storage-search" | translate }}</h5>
+    </div>
+    <div class="col-sm-12 col-md-6 text-right">
+      <ul>
+        <!-- <li (click)="toggleHelp()">{{ 'dashboard.help' | translate }}
+          <app-help [showHelp]="showHelp"></app-help>
+        </li> -->
+        <li>
+          <span (click)="toggleLng()" class="text-uppercase">{{translate.currentLang}}</span>
+          <div class="lng-list" [ngClass]="{ 'lng-list-show': showLng }">
+            <div class="lng-list-item" (click)="userLanguage('en')" *ngIf="translate.currentLang != 'en'">EN</div>
+            <div class="lng-list-item" (click)="userLanguage('fr')" *ngIf="translate.currentLang != 'fr'">FR</div>
+            <!-- <div class="lng-list-item" (click)="userLanguage('de')" *ngIf="translate.currentLang != 'de'">DE</div> -->
+          </div>
+        </li>
+        <li (click)="toggleUserMenu()"><span><i class="fa fa-user"></i> {{ app.user.account?.name }} <i
+              class="fa fa-angle-down"></i></span>
+          <div class="user-dropdown" *ngIf="showUserMenu">
+            <div class="dropdown-item text-center dropdown-text" (click)="app.logout()"> <i
+                class="fa fa-sign-out-alt"></i> {{ 'dashboard.logout' | translate }} </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <app-tabs>
+        <app-search-tab #tabSingleSearch tabTitle="{{ 'dashboard.single-search' | translate }}">
+          <app-search-form></app-search-form>
+        </app-search-tab>
+        <app-search-tab tabTitle="{{ 'dashboard.new-index' | translate }}">
+          <app-index-search [langChange]='langChange'></app-index-search>
+        </app-search-tab>
+        <app-search-tab tabTitle="{{ 'dashboard.bulk-search' | translate }}">
+          <app-bulk-search></app-bulk-search>
+        </app-search-tab>
+      </app-tabs>
+    </div>
+  </div>
+
+</div>
+
+<div class="lng-list-backdrop" *ngIf="showLng" (click)="toggleLng()"></div>
+<!-- <div class="help-list-backdrop" *ngIf="showHelp" (click)="toggleHelp()"></div> -->
+
+<app-loader *ngIf="app.showLoader"></app-loader>
+<app-message *ngIf="app.showMessage"></app-message>

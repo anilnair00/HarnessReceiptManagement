@@ -1,0 +1,133 @@
+<div class="card">
+  <div class="card-body">
+    <form (reset)="onReset()">
+      <div class="row">
+        <div class="col-sm-12 col-md-3 col-lg-2">
+          <div class="form-group">
+            <label for="firstname">{{ "dashboard.firstname" | translate }}</label>
+            <input [(ngModel)]="searchParams.first_name" type="text" class="form-control"
+              [placeholder]=" 'dashboard.firstname' | translate" id="firstname" name="firstname">
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-3 col-lg-2">
+          <div class="form-group">
+            <label for="lastname">{{ "dashboard.lastname" | translate }}</label>
+            <input [(ngModel)]="searchParams.last_name" type="text" class="form-control"
+              [placeholder]=" 'dashboard.lastname' | translate" id="lastname" name="lastname">
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-3 col-lg-2">
+          <div class="form-group">
+            <label for="email">{{ 'dashboard.email' | translate }}</label>
+            <input [(ngModel)]="searchParams.mailto" type="text" class="form-control"
+              [placeholder]="'dashboard.email' | translate" id="email" name="email">
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-3 col-lg-2">
+          <div class="form-group">
+            <label for="type">{{ 'dashboard.type' | translate}}</label>
+            <select name="type" id="type" class="form-control" [(ngModel)]="searchParams.type">
+              <option value=""></option>
+              <option value="BC">{{ 'dashboard.bc' | translate }}</option>
+              <option value="RF">{{ 'dashboard.rf' | translate }}</option>
+              <option value="EX">{{ 'dashboard.ex' | translate }}</option>
+              <option value="NA">{{ 'dashboard.na' | translate }}</option>
+              <option value="AN">{{ 'dashboard.an' | translate }}</option>
+              <option value="BM">{{ 'dashboard.bm' | translate }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-3 col-lg-2">
+          <div class="form-group">
+            <label for="ticket_number">{{ "dashboard.ticket-number" | translate }}</label>
+            <input [(ngModel)]="searchParams.ticket_number" type="text" class="form-control"
+              [placeholder]=" 'dashboard.booking-reference' | translate" id="ticket_number" name="ticket_number">
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-3 col-lg-2">
+          <div class="form-group">
+            <label for="booking_reference">{{ "dashboard.booking-reference" | translate }}</label>
+            <input [(ngModel)]="searchParams.booking_reference" type="text" class="form-control"
+              [placeholder]=" 'dashboard.booking-reference' | translate" name="booking_reference"
+              id="booking_reference">
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-3 col-lg-2">
+          <div class="form-group">
+            <label for="flight">{{ "dashboard.flight" | translate }}</label>
+            <input [(ngModel)]="searchParams.flight" type="text" class="form-control"
+              [placeholder]="'dashboard.flight' | translate" id="flight" name="flight">
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-3 col-lg-2">
+          <div class="form-group">
+            <label for="departure_city">{{ "dashboard.departure-city" | translate }}</label>
+            <input [(ngModel)]="searchParams.departure_city" type="text" class="form-control"
+              [placeholder]="'dashboard.departure-city' | translate" id="departure_city" name="departure-city">
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-3 col-lg-2">
+          <div class="form-group">
+            <label for="arrival_city">{{ "dashboard.arrival-city" | translate }}</label>
+            <input [(ngModel)]="searchParams.arrival_city" type="text" class="form-control"
+              [placeholder]="'dashboard.arrival-city' | translate" id="arrival_city" name="arrival-city">
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-3 col-lg-2">
+          <div class="form-group">
+            <label for="flight_date">{{ "dashboard.flight-date" | translate }}</label>
+            <input [(ngModel)]="searchParams.flight_date" type="date" class="form-control" id="flight_date"
+              name="flight_date">
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-3 col-lg-2">
+          <div class="form-group">
+            <label for="issuing_date_start">{{ "dashboard.issuing-date-start" | translate }}</label>
+            <input [(ngModel)]="searchParams.issuing_date_start" type="date" class="form-control"
+              id="issuing_date_start" name="issuing_date_start">
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-3 col-lg-2">
+          <div class="form-group">
+            <label for="issuing_date_end">{{ "dashboard.issuing-date-end" | translate }}</label>
+            <input [(ngModel)]="searchParams.issuing_date_end" type="date" class="form-control" id="issuing_date_end"
+              name="issuing_date_end">
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-4">
+          <div class="form-group">
+            <label for="subject">{{ "dashboard.subject" | translate }}</label>
+            <input [(ngModel)]="searchParams.subject" type="text" [placeholder]=" 'dashboard.subject' | translate "
+              class="form-control" id="subject" name="subject">
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-6">
+          <div class="form-group">
+            <label for="context">{{ "dashboard.context" | translate }}</label>
+            <input [(ngModel)]="searchParams.content" type="text" [placeholder]=" 'dashboard.context' | translate "
+              class="form-control" id="context" name="context">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group">
+            <div class="custom-control custom-switch">
+              <input [(ngModel)]="isExact" type="checkbox" class="custom-control-input" id="customSwitch"
+                name="customSwitch">
+              <label class="custom-control-label" for="customSwitch">{{ 'dashboard.exact-match' | translate }}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 text-right reset-search-button">
+        <button type="reset" class="btn btn-sm btn-secondary mr-1">{{ "dashboard.reset" | translate }}</button>
+        <button type="button" (click)="doSearch()" class="btn btn-sm btn-primary">{{ "dashboard.search" | translate
+          }}</button>
+      </div>
+    </form>
+    <br>
+    <app-results-table [searchData]="this.searchData" [searching]="this.searching" [searchType]="this.SingleSearch">
+    </app-results-table>
+  </div>
+</div>

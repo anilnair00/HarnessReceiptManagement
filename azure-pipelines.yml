@@ -1,0 +1,245 @@
+# Azure Pipeline
+# Pipeline for building and pushing images to Azure Container Registry and deploy to Web App.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+trigger:
+- main
+- release
+- dev
+
+variables:
+  # DEV-DOCKER_REGISTRY_SERVER_URL: 'https://acrodeprod001.azurecr.io'
+  # INT-DOCKER_REGISTRY_SERVER_URL: 'https://acrodeprod001.azurecr.io'
+  # CRT-DOCKER_REGISTRY_SERVER_URL: 'https://acrodeprod001.azurecr.io'
+  # PRE-DOCKER_REGISTRY_SERVER_URL: 'https://acrodeprod001.azurecr.io'
+  PRD-DOCKER_REGISTRY_SERVER_URL: 'https://mytestreg.azurecr.io'
+
+  # isProduction: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
+  # isRelease: $[eq(variables['Build.SourceBranch'], 'refs/heads/release')]
+  # isDevelopment: $[eq(variables['Build.SourceBranch'], 'refs/heads/dev')]
+
+
+# no PR triggers
+# pr: none
+
+pool:  
+  vmImage: ubuntu-latest
+# name: ACAZ-CAC-INFRA-CORE-VMSS-LINUX-01
+
+stages: 
+  
+- stage: INT
+  variables:
+    tag: 'int-$(Build.BuildId)'
+  displayName: INT
+  # condition: eq(variables.isDevelopment, true)
+  jobs:
+  - job: Build_INT
+    displayName: Build
+    steps:
+
+    - task: Docker@2
+      displayName: Build
+      inputs:
+        containerRegistry: 'Test Container Registry'
+        repository: 'receipt-management/ui'
+        command: 'build'
+        Dockerfile: '**/Dockerfile'
+        tags: '$(tag)'
+        arguments: '--build-arg stage=int'
+        
+
+    - task: Docker@2
+      displayName: Push
+      inputs:
+        containerRegistry: 'Test Container Registry'
+        repository: 'receipt-management/ui'
+        command: 'push'
+        tags: '$(tag)'
+  
+  - deployment: Deploy_INT
+    dependsOn: 'Build_INT'
+    pool:
+      vmImage: ubuntu-latest
+    # name: ACAZ-CAC-INFRA-CORE-VMSS-LINUX-01
+    environment: dev
+    displayName: Deploy To INT
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureRmWebAppDeployment@4
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: 'api'
+              appType: 'webAppContainer'
+              WebAppName: 'testrgwebapp00'
+              DockerNamespace: 'mytestreg.azurecr.io'
+              DockerRepository: 'receipt-management/ui'
+              DockerImageTag: $(tag)
+              appSettings: >-
+                -DOCKER_REGISTRY_SERVER_URL $(PRD-DOCKER_REGISTRY_SERVER_URL)
+
+# - stage: CRT
+#   dependsOn: []
+#   variables:
+#     tag: 'crt-$(Build.BuildId)'
+#   displayName: CRT
+#   condition: eq(variables.isRelease, true)
+#   jobs:
+#   - job: Build_CRT
+#     displayName: Build
+#     steps:
+
+#     - task: Docker@2
+#       displayName: Build
+#       inputs:
+#         command: build
+#         containerRegistry: 'Air Canada Container Registry' 
+#         repository: 'Receipt-Management/UI'
+#         arguments: --build-arg stage=crt 
+#         tags: |
+#           $(tag)
+        
+
+#     - task: Docker@2
+#       displayName: Push
+#       inputs:
+#         command: push
+#         containerRegistry: 'Air Canada Container Registry' 
+#         repository: 'Receipt-Management/UI'
+#         tags: |
+#           $(tag)
+  
+#   - deployment: Deploy_CRT
+#     dependsOn: 'Build_CRT'
+#     pool:
+#       vmImage: ubuntu-latest
+#     # name: ACAZ-CAC-INFRA-CORE-VMSS-LINUX-01
+#     environment: RM-CRT
+#     displayName: Deploy To CRT
+#     strategy:
+#       runOnce:
+#         deploy:
+#           steps:
+#           - task: AzureRmWebAppDeployment@4
+#             inputs:
+#               ConnectionType: 'AzureRM'
+#               azureSubscription: 'SC-RG-CAC-OD-ReceiptManagement-CRT'
+#               appType: 'webAppContainer'
+#               WebAppName: 'AS-CAC-ReceiptManagement-CRT-01'
+#               DockerNamespace: 'acrodeprod001.azurecr.io/receipt-management'
+#               DockerRepository: 'ui'
+#               DockerImageTag: $(tag)
+#               appSettings: >-
+#                 -DOCKER_REGISTRY_SERVER_URL $(CRT-DOCKER_REGISTRY_SERVER_URL)
+
+# - stage: PRE
+#   dependsOn: 'CRT'
+#   variables:
+#     tag: 'pre-$(Build.BuildId)'
+#   displayName: PRE
+#   condition: eq(variables.isRelease, true)
+#   jobs:
+#   - job: Build_PRE
+#     displayName: Build
+#     steps:
+
+#     - task: Docker@2
+#       displayName: Build
+#       inputs:
+#         command: build
+#         containerRegistry: 'Air Canada Container Registry' 
+#         repository: 'Receipt-Management/UI'
+#         arguments: --build-arg stage=pre 
+#         tags: |
+#           $(tag)
+        
+
+#     - task: Docker@2
+#       displayName: Push
+#       inputs:
+#         command: push
+#         containerRegistry: 'Air Canada Container Registry' 
+#         repository: 'Receipt-Management/UI'
+#         tags: |
+#           $(tag)
+  
+#   - deployment: Deploy_PRE
+#     dependsOn: 'Build_PRE'
+#     pool:
+#       vmImage: ubuntu-latest
+#     # name: ACAZ-CAC-INFRA-CORE-VMSS-LINUX-01
+#     environment: RM-PRE
+#     displayName: Deploy To PRE
+#     strategy:
+#       runOnce:
+#         deploy:
+#           steps:
+#           - task: AzureRmWebAppDeployment@4
+#             inputs:
+#               ConnectionType: 'AzureRM'
+#               azureSubscription: 'SC-RG-CAC-OD-ReceiptManagement-PRE'
+#               appType: 'webAppContainer'
+#               WebAppName: 'AS-CAC-ReceiptManagement-PRE-01'
+#               DockerNamespace: 'acrodeprod001.azurecr.io/receipt-management'
+#               DockerRepository: 'ui'
+#               DockerImageTag: $(tag)
+#               appSettings: >-
+#                 -DOCKER_REGISTRY_SERVER_URL $(PRE-DOCKER_REGISTRY_SERVER_URL)
+
+# - stage: PRD
+#   dependsOn: []
+#   variables:
+#     tag: 'prd-$(Build.BuildId)'
+#   displayName: PRD
+#   condition: eq(variables.isProduction, true)
+#   jobs:
+#   - job: Build_PRD
+#     displayName: Build
+#     steps:
+
+#     - task: Docker@2
+#       displayName: Build
+#       inputs:
+#         command: build
+#         containerRegistry: 'Air Canada Container Registry' 
+#         repository: 'Receipt-Management/UI'
+#         arguments: --build-arg stage=prd 
+#         tags: |
+#           $(tag)
+        
+
+#     - task: Docker@2
+#       displayName: Push
+#       inputs:
+#         command: push
+#         containerRegistry: 'Air Canada Container Registry' 
+#         repository: 'Receipt-Management/UI'
+#         tags: |
+#           $(tag)
+  
+#   - deployment: Deploy_PRD
+#     dependsOn: 'Build_PRD'
+#     pool:
+#       vmImage: ubuntu-latest
+#     # name: ACAZ-CAC-INFRA-CORE-VMSS-LINUX-01
+#     environment: RM-PRD
+#     displayName: Deploy To PRD
+#     strategy:
+#       runOnce:
+#         deploy:
+#           steps:
+#           - task: AzureRmWebAppDeployment@4
+#             inputs:
+#               ConnectionType: 'AzureRM'
+#               azureSubscription: 'SC-RG-CAC-OD-ReceiptManagement-PRD'
+#               appType: 'webAppContainer'
+#               WebAppName: 'AS-CAC-ReceiptManagement-PRD-01'
+#               DockerNamespace: 'acrodeprod001.azurecr.io/receipt-management'
+#               DockerRepository: 'ui'
+#               DockerImageTag: $(tag)
+#               appSettings: >-
+#                 -DOCKER_REGISTRY_SERVER_URL $(PRD-DOCKER_REGISTRY_SERVER_URL)
+                
+                

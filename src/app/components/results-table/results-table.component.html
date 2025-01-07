@@ -1,0 +1,183 @@
+<div>
+  <!-- {{dataSource.data | json}} -->
+  <div class="table-container" *ngIf="searchData.length > 0">
+    <h6>{{ "dashboard.results" | translate }}</h6>
+    <table mat-table #table [dataSource]="dataSource">
+      <!-- SINGLE SEARCH COLUMNS -->
+      <!-- Email/Zip link column -->
+      <ng-container matColumnDef="file">
+        <th mat-header-cell *matHeaderCellDef> {{ "dashboard.file" | translate }} </th>
+        <td mat-cell *matCellDef="let row">
+          <a *ngIf="searchType != bulk" [href]="app.storage+row.metadata_storage_name+app.sasString">{{ "dashboard.file"
+            | translate }}</a>
+          <a *ngIf="searchType === bulk" [href]="app.bulkStorage+row.metadata_storage_name+app.queryString">{{
+            row.metadata_storage_name }}</a>
+        </td>
+      </ng-container>
+      <!-- Completion time Column -->
+      <ng-container matColumnDef="completion_time">
+        <th mat-header-cell *matHeaderCellDef> {{ "dashboard.completion-time" | translate }} </th>
+        <td mat-cell *matCellDef="let row">{{ row.completion_time }}</td>
+      </ng-container>
+      <!-- First name Column -->
+      <ng-container matColumnDef="firstname">
+        <th mat-header-cell *matHeaderCellDef> {{ "dashboard.firstname" | translate }} </th>
+        <td mat-cell *matCellDef="let row">{{ row.first_name }}</td>
+      </ng-container>
+      <!-- Last name Column -->
+      <ng-container matColumnDef="lastname">
+        <th mat-header-cell *matHeaderCellDef> {{ "dashboard.lastname" | translate }} </th>
+        <td mat-cell *matCellDef="let row">{{ row.last_name }}</td>
+      </ng-container>
+      <!-- Subject Column -->
+      <ng-container matColumnDef="subject">
+        <th mat-header-cell *matHeaderCellDef> {{ "dashboard.subject" | translate }} </th>
+        <td mat-cell *matCellDef="let row">{{ row.subject }}</td>
+      </ng-container>
+      <!-- Mailto Column -->
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> {{ "dashboard.email" | translate }} </th>
+        <td mat-cell *matCellDef="let row">{{ row.mailto }}</td>
+      </ng-container>
+      <!-- Sent Date Column -->
+      <ng-container matColumnDef="receipt_sent_date">
+        <th mat-header-cell *matHeaderCellDef> {{ "dashboard.receipt-sent-date" | translate }} </th>
+        <td mat-cell *matCellDef="let row">{{ formatDate(row.receipt_sent_date) }}</td>
+      </ng-container>
+      <!-- Issue Date Column -->
+      <ng-container matColumnDef="issuing_date">
+        <th mat-header-cell *matHeaderCellDef> {{ "dashboard.issuing-date" | translate }} </th>
+        <td mat-cell *matCellDef="let row">{{ truncateDate(row.issuing_date) }}</td>
+      </ng-container>
+      <!-- Score Column -->
+      <ng-container matColumnDef="score">
+        <th mat-header-cell *matHeaderCellDef> {{ 'dashboard.matching-score' | translate }} </th>
+        <td mat-cell *matCellDef="let row">{{ row['@search.score'] | number : '1.2-2' }}</td>
+      </ng-container>
+
+      <!-- PNR Column -->
+      <ng-container matColumnDef="pnr">
+        <th mat-header-cell *matHeaderCellDef> {{ "dashboard.booking-reference" | translate }} </th>
+        <td mat-cell *matCellDef="let row"> {{ row.booking_reference }}</td>
+      </ng-container>
+      <!-- ticket number Column -->
+      <ng-container matColumnDef="ticket-number">
+        <th mat-header-cell *matHeaderCellDef> {{ "dashboard.ticket-number" | translate }} </th>
+        <td mat-cell *matCellDef="let row"> {{ row.ticket_numbers }}</td>
+      </ng-container>
+      <!-- document number Column -->
+      <ng-container matColumnDef="document-number">
+        <th mat-header-cell *matHeaderCellDef> {{ "dashboard.document-number" | translate }} </th>
+        <td mat-cell *matCellDef="let row"> {{ row.document_numbers }}</td>
+      </ng-container>
+      <!-- Flight date Column -->
+      <ng-container matColumnDef="flight-date">
+        <th mat-header-cell *matHeaderCellDef> {{ "dashboard.flight-date" | translate }} </th>
+        <td mat-cell *matCellDef="let row"> {{ row.flight_date }} </td>
+      </ng-container>
+      <!-- Type Column -->
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef> {{ "dashboard.type" | translate }} </th>
+        <td mat-cell *matCellDef="let row"> {{ row.document_type }} </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      <!-- NEW INDEX SEARCH COLUMNS -->
+
+      <ng-container matColumnDef="passenger_names">
+        <th mat-header-cell *matHeaderCellDef> {{ "dashboard.passenger-names" | translate }} </th>
+        <td mat-cell *matCellDef="let row"> {{ formatCollection(row.passenger_names) }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="document_connections">
+        <th mat-header-cell *matHeaderCellDef> {{ "dashboard.document-connections" | translate }} </th>
+        <td mat-cell *matCellDef="let row"> {{ formatCollection(row.document_connections) }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="document_issue_dates">
+        <th mat-header-cell *matHeaderCellDef> {{ "dashboard.document-issue-dates" | translate }} </th>
+        <td mat-cell *matCellDef="let row"> {{ formatCollection(row.document_issue_dates) }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="document_numbers">
+        <th mat-header-cell *matHeaderCellDef> {{ "dashboard.document-number" | translate }} </th>
+        <td mat-cell *matCellDef="let row"> {{ formatCollection(row.document_numbers) }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="email_subject">
+        <th mat-header-cell *matHeaderCellDef> {{ "dashboard.subject" | translate }} </th>
+        <td mat-cell *matCellDef="let row"> {{ row.email_subject }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="email_recipient">
+        <th mat-header-cell *matHeaderCellDef> {{ "dashboard.email" | translate }} </th>
+        <td mat-cell *matCellDef="let row"> {{ row.email_recipient }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="email_sent_date">
+        <th mat-header-cell *matHeaderCellDef> {{ "dashboard.receipt-sent-date" | translate }} </th>
+        <td mat-cell *matCellDef="let row"> {{ formatDate(row.email_sent_date) }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="first_names">
+        <th mat-header-cell *matHeaderCellDef> {{ "dashboard.firstname" | translate }} </th>
+        <td mat-cell *matCellDef="let row"> {{ formatCollection(row.first_names) }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="middle_names">
+        <th mat-header-cell *matHeaderCellDef> {{ "dashboard.middlename" | translate }} </th>
+        <td mat-cell *matCellDef="let row"> {{ formatCollection(row.middle_names) }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="last_names">
+        <th mat-header-cell *matHeaderCellDef> {{ "dashboard.lastname" | translate }} </th>
+        <td mat-cell *matCellDef="let row"> {{ formatCollection(row.last_names) }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="ticket_numbers">
+        <th mat-header-cell *matHeaderCellDef> {{ "dashboard.ticket-number" | translate }} </th>
+        <td mat-cell *matCellDef="let row"> {{ formatCollection(row.ticket_numbers) }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="ticket_issue_date">
+        <th mat-header-cell *matHeaderCellDef> {{ "dashboard.issuing-date" | translate }} </th>
+        <td mat-cell *matCellDef="let row"> {{ truncateDate(row.ticket_issue_date) }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="city_names">
+        <th mat-header-cell *matHeaderCellDef> {{ "dashboard.city-name" | translate }} </th>
+        <td mat-cell *matCellDef="let row"> {{ formatCollection(row.city_names) }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="airport_codes">
+        <th mat-header-cell *matHeaderCellDef> {{ "dashboard.airport-code" | translate }} </th>
+        <td mat-cell *matCellDef="let row"> {{ formatCollection(row.airport_codes) }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="document_types">
+        <th mat-header-cell *matHeaderCellDef> {{ "dashboard.type" | translate }} </th>
+        <td mat-cell *matCellDef="let row"> {{ formatCollection(row.document_types) }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="flight_numbers">
+        <th mat-header-cell *matHeaderCellDef> {{ "dashboard.flight-number" | translate }} </th>
+        <td mat-cell *matCellDef="let row"> {{ formatCollection(row.flight_numbers) }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="first_travel_date">
+        <th mat-header-cell *matHeaderCellDef> {{ "dashboard.first-travel-date" | translate }} </th>
+        <td mat-cell *matCellDef="let row"> {{ truncateDate(row.first_travel_date) }} </td>
+      </ng-container>
+    </table>
+
+
+    <mat-paginator #paginator aria-label="Select page" [length]="dataSource.data.length" [pageSize]="10"
+      [pageSizeOptions]="[10, 20, 50, 100]">
+    </mat-paginator>
+  </div>
+  <div class="no-results" *ngIf="dataSource.data.length === 0 && searching === true">
+    <h5>{{"dashboard.no-results" | translate }}</h5>
+  </div>
+
+</div>

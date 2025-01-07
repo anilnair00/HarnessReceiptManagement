@@ -1,0 +1,151 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import "~@angular/material/theming";
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$receipt-storage-search-primary: mat-palette($mat-indigo);
+$receipt-storage-search-accent: mat-palette($mat-pink, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$receipt-storage-search-warn: mat-palette($mat-red);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$receipt-storage-search-theme: mat-light-theme(
+  (
+    color: (
+      primary: $receipt-storage-search-primary,
+      accent: $receipt-storage-search-accent,
+      warn: $receipt-storage-search-warn,
+    ),
+  )
+);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($receipt-storage-search-theme);
+
+@import "fonts";
+
+body {
+  background: #f9f9f9;
+  font-family: "Open Sans", sans-serif;
+}
+
+.nav-panel {
+  background: white;
+  padding: 1em;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+.nav-panel ul {
+  list-style-type: none;
+}
+
+.nav-panel li {
+  display: inline-block;
+  padding: 0 1em;
+  font-size: 0.8em;
+  cursor: pointer;
+}
+
+.form-group > label {
+  font-size: 0.9em;
+}
+
+::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
+  font-size: 0.7em;
+}
+::-moz-placeholder {
+  /* Firefox 19+ */
+  font-size: 0.7em;
+}
+:-ms-input-placeholder {
+  /* IE 10+ */
+  font-size: 0.7em;
+}
+:-moz-placeholder {
+  /* Firefox 18- */
+  font-size: 0.7em;
+}
+
+.result-table th {
+  min-width: 150px;
+}
+
+.result-table th,
+td {
+  font-size: 0.7em;
+}
+
+.user-dropdown {
+  position: absolute;
+  bottom: 0;
+  right: 1em;
+  background: rgba(0, 0, 0, 0.4);
+  border-top: none;
+  z-index: 9;
+  text-align: left;
+  overflow: hidden;
+  transition: height 50ms linear;
+}
+
+.dropdown-text {
+  color: #ffffff;
+}
+
+.dropdown-text:hover {
+  color: #000;
+}
+
+.lng-list {
+  position: absolute;
+  // bottom: -4em;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 9;
+  text-align: left;
+  height: 0;
+  overflow: hidden;
+  transition: height 50ms linear;
+  color: #f9f9f9;
+}
+
+.lng-list-show {
+  height: 2.8em;
+}
+
+.lng-list-item {
+  padding: 0.5em;
+}
+
+.lng-list-item:hover {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.lng-list-backdrop {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 8;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

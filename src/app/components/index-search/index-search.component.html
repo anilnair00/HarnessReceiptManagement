@@ -1,0 +1,156 @@
+<div class="card">
+  <div class="card-body">
+    <form (reset)="onReset()">
+      <div class="form-group">
+        <div class="row">
+          <div class="col-sm-12 col-md-3 col-lg-2">
+            <div class="form-group">
+              <label for="booking_reference">{{ "dashboard.booking-reference" | translate }}</label>
+              <input [(ngModel)]="searchParams.booking_reference" type="text" class="form-control"
+                [placeholder]=" 'dashboard.booking-reference' | translate" name="booking_reference"
+                id="booking_reference">
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-3 col-lg-2">
+            <div class="form-group">
+              <label for="ticket_document_number">{{ "dashboard.ticket-document-number" | translate }}</label>
+              <input [(ngModel)]="searchParams.ticket_document_number" type="text" class="form-control"
+                [placeholder]="'dashboard.ticket-document-number' | translate" id="ticket_document_number"
+                name="ticket_document_number">
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-3 col-lg-2">
+            <div class="form-group">
+              <label for="firstname">{{ "dashboard.firstname" | translate }}</label>
+              <input [(ngModel)]="searchParams.first_name" type="text" class="form-control"
+                [placeholder]=" 'dashboard.firstname' | translate" id="firstname" name="firstname">
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-3 col-lg-2">
+            <div class="form-group">
+              <label for="middlename">{{ "dashboard.middlename" | translate }}</label>
+              <input [(ngModel)]="searchParams.middle_name" type="text" class="form-control"
+                [placeholder]=" 'dashboard.middlename' | translate" id="middlename" name="middlename">
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-3 col-lg-2">
+            <div class="form-group">
+              <label for="lastname">{{ "dashboard.lastname" | translate }}</label>
+              <input [(ngModel)]="searchParams.last_name" type="text" class="form-control"
+                [placeholder]=" 'dashboard.lastname' | translate" id="lastname" name="lastname">
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-3 col-lg-2">
+            <div class="form-group">
+              <label for="departure_city">{{ "dashboard.airport-code" | translate }}</label>
+              <input [(ngModel)]="searchParams.airport_code" type="text" class="form-control"
+                [placeholder]="'dashboard.airport-code' | translate" id="airport_code" name="flight">
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-3 col-lg-2">
+            <div class="form-group">
+              <label for="city_name">{{ "dashboard.city-name" | translate }}</label>
+              <input [(ngModel)]="searchParams.city_name" type="text" class="form-control"
+                [placeholder]="'dashboard.city-name' | translate" id="city-name" name="city-name">
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-3 col-lg-2">
+            <div class="form-group">
+              <label for="flight_number">{{ "dashboard.flight-number" | translate }}</label>
+              <input [(ngModel)]="searchParams.flight_number" type="text" class="form-control"
+                [placeholder]="'dashboard.flight-number' | translate" id="flight_number" name="flight">
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-3 col-lg-2">
+            <div class="form-group">
+              <label for="first_travel_date_start">{{ "dashboard.first-travel-date-start" | translate }}</label>
+              <input [(ngModel)]="searchParams.first_travel_date_start" class="form-control"
+                name="first-travel-date-start" id="first_travel_date_start" matInput placeholder="YYYY-MM-DD"
+                [matDatepicker]="firstTravelDateStartPicker" (click)="firstTravelDateStartPicker.open()">
+
+              <mat-datepicker #firstTravelDateStartPicker>
+              </mat-datepicker>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-3 col-lg-2">
+            <div class="form-group">
+              <label for="first_travel_date_end">{{ "dashboard.first-travel-date-end" | translate }}</label>
+              <input [(ngModel)]="searchParams.first_travel_date_end" class="form-control" name="first-travel-date-end"
+                id="first_travel_date_end" matInput placeholder="YYYY-MM-DD" [matDatepicker]="firstTravelDateEndPicker"
+                (click)="firstTravelDateEndPicker.open()">
+
+              <mat-datepicker #firstTravelDateEndPicker>
+              </mat-datepicker>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-3 col-lg-2">
+            <div class="form-group">
+              <label for="issuing_date_start">{{ "dashboard.issuing-date-start" | translate }}</label>
+              <input [(ngModel)]="searchParams.issuing_date_start" class="form-control" name="issuing-date-start"
+                id="issuing_date_start" matInput placeholder="YYYY-MM-DD" [matDatepicker]="issuingDateStartPicker"
+                (click)="issuingDateStartPicker.open()">
+
+              <mat-datepicker #issuingDateStartPicker>
+              </mat-datepicker>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-3 col-lg-2">
+            <div class="form-group">
+              <label for="issuing_date_end">{{ "dashboard.issuing-date-end" | translate }}</label>
+              <input [(ngModel)]="searchParams.issuing_date_end" class="form-control" name="issuing-date-end"
+                id="issuing_date_end" placeholder="YYYY-MM-DD" [matDatepicker]="issuingDateEndPicker"
+                (click)="issuingDateEndPicker.open()">
+              <mat-datepicker #issuingDateEndPicker>
+              </mat-datepicker>
+
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-3 col-lg-2">
+            <div class="form-group">
+              <label for="type">{{ 'dashboard.type' | translate}}</label>
+              <select name="type" id="type" class="form-control" [(ngModel)]="searchParams.document_type">
+                <option value=""></option>
+                <option value="BC">{{ 'dashboard.bc' | translate }}</option>
+                <option value="RF">{{ 'dashboard.rf' | translate }}</option>
+                <option value="EX">{{ 'dashboard.ex' | translate }}</option>
+                <option value="UN">{{ 'dashboard.na' | translate }}</option>
+                <option value="AN">{{ 'dashboard.an' | translate }}</option>
+                <option value="BM">{{ 'dashboard.bm' | translate }}</option>
+                <option value="CA">{{ 'dashboard.ca' | translate }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-3 col-lg-2">
+            <div class="form-group">
+              <label for="email">{{ "dashboard.email" | translate }}</label>
+              <input [(ngModel)]="searchParams.email_recipient" type="text" class="form-control"
+                [placeholder]=" 'dashboard.email' | translate" id="email" name="email">
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+              <label for="email_subject">{{ "dashboard.subject" | translate }}</label>
+              <input [(ngModel)]="searchParams.email_subject" type="text" class="form-control" id="email_subject"
+                name="email_subject">
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="form-group">
+              <label for="context">{{ "dashboard.context" | translate }}</label>
+              <input [(ngModel)]="searchParams.context" type="text" [placeholder]=" 'dashboard.context' | translate "
+                class="form-control" id="context" name="context">
+            </div>
+          </div>
+          <div class="col-6 text-right reset-search-button">
+            <button type="reset" class="btn btn-sm btn-secondary mr-1">{{ "dashboard.reset" | translate }}</button>
+            <button type="button" (click)="doSearch()" class="btn btn-sm btn-primary">{{ "dashboard.search" | translate
+              }}</button>
+          </div>
+        </div>
+      </div>
+    </form>
+    <br>
+    <app-results-table [searchData]="this.searchData" [searching]="this.searching">
+    </app-results-table>
+  </div>
+</div>

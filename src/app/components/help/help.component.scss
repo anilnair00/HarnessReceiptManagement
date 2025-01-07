@@ -1,0 +1,36 @@
+.help-list {
+  position: absolute;
+  // bottom: -4em;
+  background: #ffffff;
+  box-shadow: 1px black;
+  z-index: 9;
+  text-align: left;
+  height: 0;
+  overflow: hidden;
+  transition: height 50ms linear;
+  color: black;
+}
+
+.help-list-show {
+  height: 20em;
+  width: 14em;
+  box-shadow: 2px 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+.help-list-item {
+  border: 1px black;
+  padding: 0.5em;
+}
+
+.help-list-item:hover {
+  cursor: auto;
+}
+
+.help-list-backdrop {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 8;
+}
