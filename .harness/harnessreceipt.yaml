@@ -12,6 +12,12 @@ pipeline:
         build: <+input>
   stages:
     - stage:
+        variables:
+          - name: VAR_NAME
+            type: String
+            description: ""
+            required: false
+            value: mynewimage
         name: build
         identifier: build
         description: ""
@@ -40,7 +46,7 @@ pipeline:
                     connectorRef: ACRAZURECONNNECTIVITY
                     repository: tesreg001.azurecr.io/image
                     tags:
-                      - <+stage.variables.VAR_NAME>
+                      - $(tag)
                     caching: true
                     buildArgs:
                       stage: int
