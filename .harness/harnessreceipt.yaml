@@ -79,7 +79,7 @@ pipeline:
                   identifier: AzureSlotDeployment_1
                   spec:
                     webApp: testwebapp0023
-                    deploymentSlot: testwebapp0023-dev
+                    deploymentSlot: testwebapp0023
                     clean: false
                   timeout: 20m
             rollbackSteps:
