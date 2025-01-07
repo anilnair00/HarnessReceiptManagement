@@ -40,7 +40,46 @@ pipeline:
                     connectorRef: ACRAZURECONNNECTIVITY
                     repository: tesreg001.azurecr.io/image
                     tags:
-                      - test123
+                      - $(pipeline.sequenceId)
                     caching: true
                     buildArgs:
                       stage: int
+    - stage:
+        name: deploy
+        identifier: deploy
+        description: ""
+        type: Deployment
+        spec:
+          deploymentType: AzureWebApp
+          service:
+            serviceRef: harnessreceipt
+          environment:
+            environmentRef: devharness
+            deployToAll: false
+            infrastructureDefinitions:
+              - identifier: test
+          execution:
+            steps:
+              - step:
+                  name: Slot Deployment
+                  identifier: slotDeployment
+                  type: AzureSlotDeployment
+                  timeout: 20m
+                  spec:
+                    webApp: testwebapp0023
+                    deploymentSlot: testwebapp0023
+                    clean: false
+            rollbackSteps:
+              - step:
+                  name: WebApp rollback
+                  identifier: webAppRollback
+                  type: AzureWebAppRollback
+                  timeout: 20m
+                  spec: {}
+        tags: {}
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: StageRollback
