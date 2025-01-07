@@ -42,3 +42,5 @@ pipeline:
                     tags:
                       - latest
                     caching: true
+                    buildArgs:
+                      build: int
