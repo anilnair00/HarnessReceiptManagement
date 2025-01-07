@@ -43,4 +43,4 @@ pipeline:
                       - latest
                     caching: true
                     buildArgs:
-                      build: int
+                      stage: int
