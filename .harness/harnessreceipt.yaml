@@ -17,7 +17,7 @@ pipeline:
             type: String
             description: ""
             required: false
-            value: mynewimage
+            value: pipeline.sequenceId
         name: build
         identifier: build
         description: ""
