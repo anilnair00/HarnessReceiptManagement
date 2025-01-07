@@ -40,7 +40,7 @@ pipeline:
                     connectorRef: ACRAZURECONNNECTIVITY
                     repository: tesreg001.azurecr.io/image
                     tags:
-                      - latest
+                      - <+pipeline.triggeredBy.triggerIdentifier>
                     caching: true
                     buildArgs:
                       stage: int
