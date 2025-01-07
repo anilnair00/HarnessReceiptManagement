@@ -66,14 +66,13 @@ pipeline:
           execution:
             steps:
               - step:
-                  name: Slot Deployment
-                  identifier: slotDeployment
-                  type: AzureSlotDeployment
-                  timeout: 20m
+                  type: AzureWebAppRollback
+                  name: AzureWebAppRollback_1
+                  identifier: AzureWebAppRollback_1
                   spec:
-                    webApp: testwebapp0023
-                    deploymentSlot: testwebapp0023
-                    clean: false
+                    delegateSelectors:
+                      - kubernetes-delegate
+                  timeout: 20m
             rollbackSteps:
               - step:
                   name: WebApp rollback
