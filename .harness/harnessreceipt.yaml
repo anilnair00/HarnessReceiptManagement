@@ -40,7 +40,7 @@ pipeline:
                     connectorRef: ACRAZURECONNNECTIVITY
                     repository: tesreg001.azurecr.io/image
                     tags:
-                      - $(tag)
+                      - <+pipeline.sequenceId>
                     caching: true
         variables:
           - name: tag
