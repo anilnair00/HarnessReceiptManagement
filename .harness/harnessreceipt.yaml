@@ -44,8 +44,12 @@ pipeline:
                     caching: true
                     buildArgs:
                       stage: int
-                    envVariables:
-                      tag: "\_<+pipeline.executionId>"
+        variables:
+          - name: tag
+            type: String
+            description: ""
+            required: false
+            value: <+pipeline.name>
     - stage:
         name: deploy
         identifier: deploy
