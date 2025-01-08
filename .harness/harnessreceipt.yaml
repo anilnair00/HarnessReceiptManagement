@@ -45,7 +45,7 @@ pipeline:
                     buildArgs:
                       stage: int
                     envVariables:
-                      tag: Execution Id
+                      tag: "\_<+pipeline.executionId>"
     - stage:
         name: deploy
         identifier: deploy
