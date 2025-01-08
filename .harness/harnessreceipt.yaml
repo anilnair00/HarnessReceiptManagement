@@ -42,8 +42,6 @@ pipeline:
                     tags:
                       - $(tag)
                     caching: true
-                    buildArgs:
-                      stage: int
         variables:
           - name: tag
             type: String
