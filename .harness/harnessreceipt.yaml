@@ -1,99 +1,28 @@
 pipeline:
   name: harnessreceipt
   identifier: harnessreceipt
+  tags: {}
+  template:
+    templateRef: templateACR
+    versionLabel: Version1
+    templateInputs:
+      properties:
+        ci:
+          codebase:
+            build: <+input>
+      stages:
+        - stage:
+            identifier: deploy
+            type: Deployment
+            spec:
+              service:
+                serviceInputs:
+                  serviceDefinition:
+                    type: AzureWebApp
+                    spec:
+                      artifacts:
+                        primary:
+                          primaryArtifactRef: <+input>
+                          sources: <+input>
   projectIdentifier: default_project
   orgIdentifier: default
-  tags: {}
-  properties:
-    ci:
-      codebase:
-        connectorRef: gitHubConnector
-        repoName: HarnessReceiptManagement
-        build: <+input>
-  stages:
-    - stage:
-        name: build
-        identifier: build
-        description: ""
-        type: CI
-        spec:
-          cloneCodebase: true
-          caching:
-            enabled: true
-          buildIntelligence:
-            enabled: true
-          infrastructure:
-            type: KubernetesDirect
-            spec:
-              connectorRef: test
-              namespace: harness-delegate-ng
-              automountServiceAccountToken: true
-              nodeSelector: {}
-              os: Linux
-          execution:
-            steps:
-              - step:
-                  type: BuildAndPushACR
-                  name: BuildAndPushACR_1
-                  identifier: BuildAndPushACR_1
-                  spec:
-                    connectorRef: ACRAZURECONNNECTIVITY
-                    repository: tesreg001.azurecr.io/image
-                    tags:
-                      - <+pipeline.sequenceId>
-                    caching: true
-                    buildArgs:
-                      stage: int
-        variables:
-          - name: tag
-            type: String
-            description: ""
-            required: false
-            value: <+pipeline.name>
-    - stage:
-        name: deploy
-        identifier: deploy
-        description: ""
-        type: Deployment
-        spec:
-          deploymentType: AzureWebApp
-          service:
-            serviceRef: harnessreceipt
-            serviceInputs:
-              serviceDefinition:
-                type: AzureWebApp
-                spec:
-                  artifacts:
-                    primary:
-                      primaryArtifactRef: <+input>
-                      sources: <+input>
-          environment:
-            environmentRef: devharness
-            deployToAll: false
-            infrastructureDefinitions:
-              - identifier: test
-          execution:
-            steps:
-              - step:
-                  type: AzureSlotDeployment
-                  name: AzureSlotDeployment_1
-                  identifier: AzureSlotDeployment_1
-                  spec:
-                    webApp: testwebapp0023
-                    deploymentSlot: testwebapp0023
-                    clean: false
-                  timeout: 20m
-            rollbackSteps:
-              - step:
-                  name: WebApp rollback
-                  identifier: webAppRollback
-                  type: AzureWebAppRollback
-                  timeout: 20m
-                  spec: {}
-        tags: {}
-        failureStrategies:
-          - onFailure:
-              errors:
-                - AllErrors
-              action:
-                type: StageRollback
