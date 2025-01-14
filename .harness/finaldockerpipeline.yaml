@@ -69,3 +69,47 @@ pipeline:
                     isAutoRejectEnabled: false
                     approverInputs: []
         tags: {}
+    - stage:
+        name: DeployToAzureAppService
+        identifier: DeployToAzureAppService
+        description: ""
+        type: Deployment
+        spec:
+          deploymentType: AzureWebApp
+          service:
+            serviceRef: finalService
+            serviceInputs:
+              serviceDefinition:
+                type: AzureWebApp
+                spec:
+                  artifacts:
+                    primary:
+                      primaryArtifactRef: <+input>
+                      sources: <+input>
+          environment:
+            environmentRef: finalEnv
+            deployToAll: false
+            infrastructureDefinitions:
+              - identifier: finalInfrastructure
+          execution:
+            steps:
+              - step:
+                  type: AzureWebAppRollback
+                  name: AzureWebAppRollback_1
+                  identifier: AzureWebAppRollback_1
+                  spec: {}
+                  timeout: 20m
+            rollbackSteps:
+              - step:
+                  name: WebApp rollback
+                  identifier: webAppRollback
+                  type: AzureWebAppRollback
+                  timeout: 20m
+                  spec: {}
+        tags: {}
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: StageRollback
