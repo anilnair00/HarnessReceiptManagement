@@ -1,0 +1,26 @@
+inputSet:
+  name: dockerHarnessInputSet
+  identifier: dockerHarnessInputSet
+  orgIdentifier: default
+  projectIdentifier: default_project
+  pipeline:
+    identifier: harnessreceipt
+    template:
+      templateInputs:
+        properties:
+          ci:
+            codebase:
+              build: <+input>
+        stages:
+          - stage:
+              identifier: deploy
+              type: Deployment
+              spec:
+                service:
+                  serviceInputs:
+                    serviceDefinition:
+                      type: AzureWebApp
+                      spec:
+                        artifacts:
+                          primary:
+                            primaryArtifactRef: ACRAZURECONNNECTIVITY
