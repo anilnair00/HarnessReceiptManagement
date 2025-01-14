@@ -43,6 +43,8 @@ pipeline:
                       - <+pipeline.sequenceId>
                       - latest
                     caching: true
+                    buildArgs:
+                      stage: int
     - stage:
         name: Approval
         identifier: Approval
