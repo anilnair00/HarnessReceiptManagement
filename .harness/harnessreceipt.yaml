@@ -4,7 +4,7 @@ pipeline:
   tags: {}
   template:
     templateRef: templateACR
-    versionLabel: Version1
+    versionLabel: Version2
     templateInputs:
       properties:
         ci:
@@ -12,17 +12,41 @@ pipeline:
             build: <+input>
       stages:
         - stage:
+            identifier: build
+            type: CI
+            spec:
+              infrastructure:
+                type: KubernetesDirect
+                spec:
+                  connectorRef: <+input>
+                  namespace: <+input>
+                  os: <+input>
+              execution:
+                steps:
+                  - step:
+                      identifier: BuildAndPushACR_1
+                      type: BuildAndPushACR
+                      spec:
+                        connectorRef: <+input>
+                        repository: <+input>
+                        caching: <+input>
+        - stage:
             identifier: deploy
             type: Deployment
             spec:
               service:
-                serviceInputs:
-                  serviceDefinition:
-                    type: AzureWebApp
-                    spec:
-                      artifacts:
-                        primary:
-                          primaryArtifactRef: <+input>
-                          sources: <+input>
+                serviceRef: <+input>
+                serviceInputs: <+input>
+              environment:
+                environmentRef: <+input>
+                environmentInputs: <+input>
+                serviceOverrideInputs: <+input>
+                infrastructureDefinitions: <+input>
+              execution:
+                steps:
+                  - step:
+                      identifier: AzureWebAppRollback
+                      type: AzureWebAppRollback
+                      timeout: <+input>
   projectIdentifier: default_project
   orgIdentifier: default
