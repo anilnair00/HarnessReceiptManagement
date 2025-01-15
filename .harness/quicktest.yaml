@@ -42,6 +42,8 @@ pipeline:
                     tags:
                       - <+pipeline.sequenceId>
                     caching: true
+                    buildArgs:
+                      stage: int
     - stage:
         name: deploy
         identifier: deploy
