@@ -1,0 +1,50 @@
+inputSet:
+  name: finalnput
+  identifier: finalnput
+  orgIdentifier: default
+  projectIdentifier: default_project
+  pipeline:
+    identifier: finaldockerpipeline
+    properties:
+      ci:
+        codebase:
+          build:
+            type: branch
+            spec:
+              branch: main
+    stages:
+      - stage:
+          identifier: BuidPushToACR
+          type: CI
+          spec:
+            infrastructure:
+              type: KubernetesDirect
+              spec:
+                connectorRef: test
+                namespace: harness-delegate-ng
+                os: Linux
+            execution:
+              steps:
+                - step:
+                    identifier: BuildAndPushACR_1
+                    type: BuildAndPushACR
+                    spec:
+                      connectorRef: ACRAZURECONNNECTIVITY
+                      repository: tesreg001.azurecr.io/image
+      - stage:
+          identifier: DeployToAzureAppService
+          type: Deployment
+          spec:
+            service:
+              serviceRef: finalService
+              serviceInputs:
+                serviceDefinition:
+                  type: AzureWebApp
+                  spec:
+                    artifacts:
+                      primary:
+                        primaryArtifactRef: ACRAZURECONNNECTIVITY
+            environment:
+              environmentRef: finalEnv
+              infrastructureDefinitions:
+                - identifier: finalInfrastructure
