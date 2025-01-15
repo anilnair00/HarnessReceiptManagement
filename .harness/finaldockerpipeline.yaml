@@ -78,28 +78,22 @@ pipeline:
         spec:
           deploymentType: AzureWebApp
           service:
-            serviceRef: finalService
-            serviceInputs:
-              serviceDefinition:
-                type: AzureWebApp
-                spec:
-                  artifacts:
-                    primary:
-                      primaryArtifactRef: <+input>
-                      sources: <+input>
+            serviceRef: <+input>
+            serviceInputs: <+input>
           environment:
-            environmentRef: finalEnv
+            environmentRef: <+input>
             deployToAll: false
-            infrastructureDefinitions:
-              - identifier: finalInfrastructure
+            environmentInputs: <+input>
+            serviceOverrideInputs: <+input>
+            infrastructureDefinitions: <+input>
           execution:
             steps:
               - step:
                   type: AzureWebAppRollback
-                  name: AzureWebAppRollback_1
+                  name: AzureWebAppDeploy
                   identifier: AzureWebAppRollback_1
                   spec: {}
-                  timeout: 20m
+                  timeout: 8h
             rollbackSteps:
               - step:
                   name: WebApp rollback
