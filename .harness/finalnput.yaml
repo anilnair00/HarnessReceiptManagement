@@ -1,5 +1,6 @@
 inputSet:
   name: finalnput
+  tags: {}
   identifier: finalnput
   orgIdentifier: default
   projectIdentifier: default_project
@@ -44,7 +45,16 @@ inputSet:
                     artifacts:
                       primary:
                         primaryArtifactRef: ACRAZURECONNNECTIVITY
+                        sources: <+input>
             environment:
               environmentRef: finalEnv
               infrastructureDefinitions:
                 - identifier: finalInfrastructure
+            execution:
+              steps:
+                - step:
+                    identifier: AzureDeployment
+                    type: AzureSlotDeployment
+                    spec:
+                      webApp: testwebapp222
+                      deploymentSlot: testwebapp222
