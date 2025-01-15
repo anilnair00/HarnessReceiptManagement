@@ -42,3 +42,50 @@ pipeline:
                     tags:
                       - <+pipeline.sequenceId>
                     caching: true
+    - stage:
+        name: deploy
+        identifier: deploy
+        description: ""
+        type: Deployment
+        spec:
+          deploymentType: AzureWebApp
+          service:
+            serviceRef: ACRAZURECONNNECTIVITY
+            serviceInputs:
+              serviceDefinition:
+                type: AzureWebApp
+                spec:
+                  artifacts:
+                    primary:
+                      primaryArtifactRef: <+input>
+                      sources: <+input>
+          environment:
+            environmentRef: finalEnv
+            deployToAll: false
+            infrastructureDefinitions:
+              - identifier: quick
+          execution:
+            steps:
+              - step:
+                  name: App Service Deployment
+                  identifier: App_Service_Deployment
+                  type: AzureSlotDeployment
+                  timeout: 20m
+                  spec:
+                    webApp: testwebapp222
+                    deploymentSlot: testwebapp222
+                    clean: false
+            rollbackSteps:
+              - step:
+                  name: WebApp rollback
+                  identifier: webAppRollback
+                  type: AzureWebAppRollback
+                  timeout: 20m
+                  spec: {}
+        tags: {}
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: StageRollback
