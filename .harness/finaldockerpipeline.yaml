@@ -89,10 +89,13 @@ pipeline:
           execution:
             steps:
               - step:
-                  type: AzureWebAppRollback
-                  name: AzureWebAppDeploy
-                  identifier: AzureWebAppRollback_1
-                  spec: {}
+                  type: AzureSlotDeployment
+                  name: AzureDeployment
+                  identifier: AzureDeployment
+                  spec:
+                    webApp: <+input>
+                    deploymentSlot: <+input>
+                    clean: false
                   timeout: 8h
             rollbackSteps:
               - step:
