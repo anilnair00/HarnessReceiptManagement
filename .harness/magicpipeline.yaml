@@ -42,3 +42,44 @@ pipeline:
                     tags:
                       - <+pipeline.sequenceId>
                     caching: true
+    - stage:
+        name: deploy
+        identifier: deploy
+        description: ""
+        type: Deployment
+        spec:
+          deploymentType: AzureWebApp
+          service:
+            serviceRef: magicservice
+            serviceInputs:
+              serviceDefinition:
+                type: AzureWebApp
+                spec:
+                  artifacts:
+                    primary:
+                      primaryArtifactRef: <+input>
+                      sources: <+input>
+          environment:
+            environmentRef: magicenv
+            deployToAll: false
+            infrastructureDefinitions:
+              - identifier: magicinfra
+          execution:
+            steps:
+              - step:
+                  type: AzureSlotDeployment
+                  name: AzureDeployment
+                  identifier: AzureDeployment
+                  spec:
+                    webApp: mywebapptest001
+                    deploymentSlot: mywebapptest001
+                    clean: false
+                  timeout: 1h
+            rollbackSteps: []
+        tags: {}
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: StageRollback
