@@ -52,7 +52,7 @@ pipeline:
         spec:
           deploymentType: AzureWebApp
           service:
-            serviceRef: mumservice
+            serviceRef: testingthrough
             serviceInputs:
               serviceDefinition:
                 type: AzureWebApp
@@ -62,10 +62,10 @@ pipeline:
                       primaryArtifactRef: <+input>
                       sources: <+input>
           environment:
-            environmentRef: mum
+            environmentRef: thoroughenv
             deployToAll: false
             infrastructureDefinitions:
-              - identifier: muminfra
+              - identifier: thoroughinfra
           execution:
             steps:
               - step:
