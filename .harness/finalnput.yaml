@@ -56,5 +56,5 @@ inputSet:
                     identifier: AzureDeployment
                     type: AzureSlotDeployment
                     spec:
-                      webApp: testwebapp222
-                      deploymentSlot: testwebapp222
+                      webApp: mywebapp022
+                      deploymentSlot: mywebapp022
