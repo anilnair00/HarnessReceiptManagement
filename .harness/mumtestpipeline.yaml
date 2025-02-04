@@ -43,4 +43,4 @@ pipeline:
                       - <+pipeline.sequenceId>
                     caching: true
                     buildArgs:
-                      stage: init
+                      stage: int
