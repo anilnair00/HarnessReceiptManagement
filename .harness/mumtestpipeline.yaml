@@ -1,0 +1,46 @@
+pipeline:
+  name: mumtestpipeline
+  identifier: mumtestpipeline
+  projectIdentifier: default_project
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: gitHubConnector
+        repoName: HarnessReceiptManagement
+        build: <+input>
+  stages:
+    - stage:
+        name: build
+        identifier: build
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          caching:
+            enabled: true
+          buildIntelligence:
+            enabled: true
+          infrastructure:
+            type: KubernetesDirect
+            spec:
+              connectorRef: mumkubeconnector
+              namespace: harness-delegate-newng
+              automountServiceAccountToken: true
+              nodeSelector: {}
+              os: Linux
+          execution:
+            steps:
+              - step:
+                  type: BuildAndPushACR
+                  name: BuildAndPushACR_1
+                  identifier: BuildAndPushACR_1
+                  spec:
+                    connectorRef: mumazureconnector
+                    repository: tesreg001.azurecr.io/image
+                    tags:
+                      - <+pipeline.sequenceId>
+                    caching: true
+                    buildArgs:
+                      stage: init
