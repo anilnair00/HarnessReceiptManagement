@@ -69,6 +69,12 @@ pipeline:
           execution:
             steps:
               - step:
+                  type: AzureWebAppRollback
+                  name: AzureWebAppRollback_1
+                  identifier: AzureWebAppRollback_1
+                  spec: {}
+                  timeout: 20m
+              - step:
                   type: AzureSlotDeployment
                   name: AzureDeployment
                   identifier: AzureDeployment
