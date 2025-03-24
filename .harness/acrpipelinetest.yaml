@@ -1,0 +1,41 @@
+pipeline:
+  name: acrpipelinetest
+  identifier: acrpipelinetest
+  projectIdentifier: default_project
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: acrgithub
+        repoName: HarnessReceiptManagement
+        build: <+input>
+  stages:
+    - stage:
+        name: build
+        identifier: build
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          infrastructure:
+            type: KubernetesDirect
+            spec:
+              connectorRef: acrkubernetes
+              namespace: harness-delegate-ng
+              automountServiceAccountToken: true
+              nodeSelector: {}
+              os: Linux
+          execution:
+            steps:
+              - step:
+                  type: BuildAndPushACR
+                  name: BuildAndPushACR
+                  identifier: BuildAndPushACR
+                  spec:
+                    connectorRef: acrazureconnector
+                    repository: tesreg001.azurecr.io/receipt-management/ui
+                    tags:
+                      - int
+                    buildArgs:
+                      stage: int
